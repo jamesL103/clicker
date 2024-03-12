@@ -11,7 +11,7 @@ public class Clicker {
     private boolean clickActive = false;
 
     //robot object to provide clicking
-    Robot rob;
+    private Robot rob;
 
     {
         try {

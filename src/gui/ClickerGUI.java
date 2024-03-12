@@ -19,7 +19,7 @@ public class ClickerGUI extends JFrame {
     private final Clicker clicker = new Clicker();
 
     //label to show clicking status
-    Label clickStatus = new Label("Autoclicker status: " + (clicker.isClicking() ? "active" : "inactive"));
+    Label clickStatus = new Label("Autoclicker status: inactive");
     //label to show frequency
     Label clickerFrequency = new Label("AutoClicker Frequency: " + clicker.getFrequency());
 
@@ -49,10 +49,10 @@ public class ClickerGUI extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_A) {
                     if (clicker.isClicking()) {
                         clicker.disableClick();
-                        System.out.println("off");
+                        clickStatus.setText("Autoclicker status: inactive");
                     } else {
                         clicker.autoClick();
-                        System.out.println("on");
+                        clickStatus.setText("Autoclicker status: active");
                     }
                 }
             }
