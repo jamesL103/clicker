@@ -1,10 +1,13 @@
-import clicker.Clicker;
 import gui.ClickerGUI;
+
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        ClickerGUI gui = new ClickerGUI();
+        SwingUtilities.invokeLater(() -> {
+            ClickerGUI gui = new ClickerGUI();
+        });
     }
 
 }

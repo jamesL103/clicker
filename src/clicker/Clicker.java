@@ -22,29 +22,26 @@ public class Clicker {
 
     }
 
-    /**Constructs a new Clicker with the specified frequency.
-     * Frequency is measured in number of clicks per second, and must have a minumum
-     * value of 1.The maximum value before delay goes to zero is 1000.
-     *
-     * @param frequency the frequency of the clicker
-     */
-    public Clicker(int frequency) {
-        this.frequency = frequency;
-    }
 
     public Clicker() {
 
     }
 
-    /**Clicks continously at the Clickers rate until stopped
+    /**Clicks continuously at the Clickers rate until stopped
      *
      */
     public void autoClick() {
-        int clickPause = (int)(1000 * (1.0/frequency)); //delay in milliseconds between each click
-        while (clickActive) {
-            rob.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-            rob.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-            rob.delay(clickPause);
+        if (!clickActive) {
+            int clickPause = (int) (1000 * (1.0 / frequency)); //delay in milliseconds between each click
+            clickActive = true;
+            Thread t = new Thread(() -> { //create a thread to handle the autoclicking
+                while (clickActive) {
+                    rob.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                    rob.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                    rob.delay(clickPause);
+                }
+            });
+            t.start();//start the thread
         }
     }
 
@@ -64,7 +61,6 @@ public class Clicker {
     }
 
     /**Sets the frequency of the autoclicker to a specified integer.
-     *
      * Frequency is measured in number of clicks per second, and must have a minumum
      * value of 1.The maximum value before delay goes to zero is 1000.
      *
