@@ -4,11 +4,14 @@ import java.awt.event.InputEvent;
 
 public class Clicker {
 
-    //clicks per second, maximum before int precision is lost is 1000
+    //clicks per second, anything above approx. 1000 results in max clicking rate
     private int frequency = 10;
 
     //determines whether autoclicking is in progress
     private boolean clickActive = false;
+
+    //thread to provide clicking
+    private Thread clicker;
 
     //robot object to provide clicking
     private Robot rob;
@@ -34,14 +37,14 @@ public class Clicker {
         if (!clickActive) {
             int clickPause = (int) (1000 * (1.0 / frequency)); //delay in milliseconds between each click
             clickActive = true;
-            Thread t = new Thread(() -> { //create a thread to handle the autoclicking
+            clicker = new Thread(() -> { //create a thread to handle the autoclicking
                 while (clickActive) {
                     rob.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                     rob.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                     rob.delay(clickPause);
                 }
             });
-            t.start();//start the thread
+            clicker.start();//start the thread
         }
     }
 

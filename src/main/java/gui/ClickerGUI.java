@@ -38,7 +38,6 @@ public class ClickerGUI extends JFrame {
         BoxLayout layout = new BoxLayout(getContentPane(), BoxLayout.Y_AXIS);
         getContentPane().setLayout(layout);
 
-        addMouseListener(new GUIMouseListener());
 
         addFocusListener(new GUIFocusListener());
 
@@ -96,40 +95,6 @@ public class ClickerGUI extends JFrame {
         GlobalScreen.addNativeKeyListener(new globalKeyListener());
     }
 
-
-    /**MouseListener for the main panel
-     *
-     */
-    private class GUIMouseListener implements MouseListener {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        /**Brings the main panel into focus when the mouse enters it.
-         *
-         * @param e the event to be processed
-         */
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            requestFocus();
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    }
 
     /**FocusListener for the main frame.
      * Allows the main frame to disable the autoclicker when focus is gained
