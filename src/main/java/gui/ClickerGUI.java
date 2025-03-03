@@ -90,7 +90,7 @@ public class ClickerGUI extends JFrame {
         try {
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException e) {
-            System.out.println("error initializing native hook");
+            System.out.println("error initializing native input hook");
         }
         GlobalScreen.addNativeKeyListener(new globalKeyListener());
     }
