@@ -42,6 +42,7 @@ public class ClickerGUI extends JFrame {
         addFocusListener(new GUIFocusListener());
 
         setName("Auto Clicker");
+        setTitle("Clicker");
         add(new JLabel("Auto Clicker"));
         add(CLICK_STATUS_LABEL);
         add(CLICKER_FREQ_LABEL);
