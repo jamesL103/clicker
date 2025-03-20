@@ -1,5 +1,7 @@
 package clicker;
 
+import clicker.macro.Macro;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 
@@ -17,6 +19,7 @@ public class AutoInput {
     //robot object to provide clicking
     private MacroRobot rob;
 
+
     {
         try {
             rob = new MacroRobot();
@@ -32,7 +35,6 @@ public class AutoInput {
      */
     public void autoInput() {
         if (!inputActive) {
-            int pause = (int) (1000 * (1.0 / frequency)); //delay in milliseconds between each click
             inputActive = true;
             input = new Thread(() -> { //create a thread to handle the autoclicking
                 while (inputActive) {
@@ -58,8 +60,16 @@ public class AutoInput {
         return inputActive;
     }
 
+    /** Updates the current Macro that is run
+     *
+     * @param macro the macro to run
+     */
+    public void setMacro(Macro macro) {
+        rob.setMacro(macro);
+    }
+
     /**Sets the frequency of the auto input to a specified integer.
-     * Frequency is measured in number of clicks per second, and must have a minumum
+     * Frequency is the number of times
      * value of 1.The maximum value before delay goes to zero is 1000.
      *
      * @param freq the frequency, in clicks/second

@@ -1,10 +1,13 @@
 package gui;
 
+import clicker.AutoInput;
 import clicker.Clicker;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import clicker.macro.Macros;
 import com.github.kwhat.jnativehook.*;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
@@ -16,7 +19,7 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 public class ClickerGUI extends JFrame {
 
     //clicker used to provide clicking input
-    private final Clicker CLICKER = new Clicker();
+    private final AutoInput INPUT = new AutoInput();
 
     //key to toggle clicking
     private final int TOGGLE_KEY = NativeKeyEvent.VC_ESCAPE;
@@ -24,12 +27,13 @@ public class ClickerGUI extends JFrame {
     //label to show clicking status
     private final JLabel CLICK_STATUS_LABEL = new JLabel("Autoclicker status: inactive");
     //label to show frequency
-    private final JLabel CLICKER_FREQ_LABEL = new JLabel("AutoClicker Frequency: " + CLICKER.getFrequency() + " clicks/s");
+    private final JLabel CLICKER_FREQ_LABEL = new JLabel("AutoClicker Frequency: 0 clicks/s");
 
     /**Instantiates and displays the GUI for the clicker.
      *
      */
     public ClickerGUI() {
+        INPUT.setMacro(Macros.AUTO_CLICK);
         initGui();
     }
 
@@ -62,7 +66,7 @@ public class ClickerGUI extends JFrame {
         freq_set_panel.add(new JLabel("Set Frequency: "));
 
         JTextField frequencyField = new JTextField(); //text field to input frequency
-        frequencyField.setText(String.valueOf(CLICKER.getFrequency()));
+        frequencyField.setText(String.valueOf(0));
         frequencyField.setPreferredSize(new Dimension(70, 30));
 
         JButton submit = new JButton("Confirm"); //button to confirm frequency update
@@ -71,8 +75,8 @@ public class ClickerGUI extends JFrame {
             try { //checks if there is a valid int to parse from the text field
                 int freq = Integer.parseInt(frequencyField.getText());
                 if (freq > 0) {
-                    CLICKER.setFrequency(freq);
-                    CLICKER_FREQ_LABEL.setText("AutoClicker Frequency: " + CLICKER.getFrequency() + " clicks/s");
+                    INPUT.setFrequency(freq);
+                    CLICKER_FREQ_LABEL.setText("AutoClicker Frequency: 0 clicks/s");
                 }
             } catch (NumberFormatException ignored) { //if no valid int, do nothing
 
@@ -109,7 +113,7 @@ public class ClickerGUI extends JFrame {
          */
         @Override
         public void focusGained(FocusEvent e) {
-            CLICKER.disableClick();
+            INPUT.disableInput();
             CLICK_STATUS_LABEL.setText("Autoclicker status: inactive");
         }
 
@@ -128,11 +132,11 @@ public class ClickerGUI extends JFrame {
         @Override
         public void nativeKeyPressed(NativeKeyEvent e) {
             if (e.getKeyCode() == TOGGLE_KEY) {
-                if (CLICKER.isClicking()) {
-                    CLICKER.disableClick();
+                if (INPUT.isActive()) {
+                    INPUT.disableInput();
                     CLICK_STATUS_LABEL.setText("Autoclicker status: inactive");
                 } else {
-                    CLICKER.autoClick();
+                    INPUT.autoInput();
                     CLICK_STATUS_LABEL.setText("Autoclicker status: active");
                 }
             }

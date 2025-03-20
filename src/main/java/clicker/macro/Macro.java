@@ -1,4 +1,4 @@
-package clicker;
+package clicker.macro;
 
 import java.util.List;
 
@@ -8,10 +8,14 @@ import java.util.List;
  */
 public class Macro {
 
-    private List<Integer> inputList;
+    private List<MacroEvent> inputList;
 
-    public List<Integer> getInputList() {
+    public List<MacroEvent> getInputSequence() {
         return inputList;
+    }
+
+    public void setInputSequence(List<MacroEvent> sequence) {
+        inputList = sequence;
     }
 
 
