@@ -1,4 +1,4 @@
-import gui.ClickerGUI;
+import gui.MacroGUI;
 
 import javax.swing.*;
 
@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ClickerGUI gui = new ClickerGUI();
+            MacroGUI gui = new MacroGUI();
         });
     }
 

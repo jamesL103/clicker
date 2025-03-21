@@ -1,4 +1,4 @@
-package clicker.macro;
+package input.macro;
 
 import java.util.List;
 
@@ -10,9 +10,16 @@ public class Macro {
 
     private List<MacroEvent> inputList;
 
-    private MacroType type = MacroType.SINGLE;
+    private MacroType type;
 
-    public Macro(MacroType type) {
+    private String name;
+
+    public Macro(MacroType type, String name) {
+        this.type = type;
+        this.name = name;
+    }
+
+    public void setType(MacroType type) {
         this.type = type;
     }
 
@@ -26,6 +33,14 @@ public class Macro {
 
     public void setInputSequence(List<MacroEvent> sequence) {
         inputList = sequence;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     /** Types determine how the macro is activated and how many times it will run.

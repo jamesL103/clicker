@@ -1,4 +1,4 @@
-package clicker;
+package input;
 import java.awt.*;
 import java.awt.event.InputEvent;
 

@@ -1,6 +1,6 @@
-package clicker;
+package input;
 
-import clicker.macro.Macro;
+import input.macro.Macro;
 
 import java.awt.*;
 
@@ -82,15 +82,5 @@ public class AutoInput {
         }
         frequency = freq;
     }
-
-    /**Returns the frequency of the auto input
-     *
-     * @return the frequency
-     */
-    public int getFrequency() {
-        return frequency;
-    }
-
-
 
 }

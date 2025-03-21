@@ -1,7 +1,7 @@
-package clicker;
+package input;
 
-import clicker.macro.Macro;
-import clicker.macro.MacroEvent;
+import input.macro.Macro;
+import input.macro.MacroEvent;
 
 import java.awt.*;
 

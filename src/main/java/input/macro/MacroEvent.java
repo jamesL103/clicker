@@ -1,4 +1,4 @@
-package clicker.macro;
+package input.macro;
 
 /** Class representing an input event that can either be keyboard or mouse input.
  *

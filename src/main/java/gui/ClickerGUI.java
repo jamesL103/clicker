@@ -1,12 +1,12 @@
 package gui;
 
-import clicker.AutoInput;
+import input.AutoInput;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import clicker.macro.Macros;
+import input.macro.Macros;
 import com.github.kwhat.jnativehook.*;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
