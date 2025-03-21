@@ -3,7 +3,6 @@ package clicker;
 import clicker.macro.Macro;
 
 import java.awt.*;
-import java.awt.event.InputEvent;
 
 public class AutoInput {
 
@@ -13,10 +12,10 @@ public class AutoInput {
     //determines whether auto input is enabled
     private boolean inputActive = false;
 
-    //thread to provide clicking
+    //thread to generate input
     private Thread input;
 
-    //robot object to provide clicking
+    //robot object to provide input
     private MacroRobot rob;
 
 
@@ -30,11 +29,14 @@ public class AutoInput {
     }
 
 
-    /** Inputs continuously at the set rate until stopped
+    /** Activates the currently active macro
      *
      */
-    public void autoInput() {
-        if (!inputActive) {
+    public void activateMacro() {
+
+        if (rob.getMacroType() == Macro.MacroType.SINGLE) {
+            input = new Thread(() -> rob.runMacro());
+        } else if (!inputActive) {
             inputActive = true;
             input = new Thread(() -> { //create a thread to handle the autoclicking
                 while (inputActive) {

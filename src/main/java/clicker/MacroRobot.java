@@ -30,6 +30,10 @@ public class MacroRobot extends Robot {
         this.macro = macro;
     }
 
+    public Macro.MacroType getMacroType() {
+        return macro.getType();
+    }
+
     /** Runs the macro once
      *
      */

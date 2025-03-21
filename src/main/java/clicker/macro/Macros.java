@@ -1,7 +1,6 @@
 package clicker.macro;
 
 import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class Macros {
 
 
     //autoclicking macro
-    public static final Macro AUTO_CLICK = new Macro();
+    public static final Macro AUTO_CLICK = new Macro(Macro.MacroType.TOGGLE);
 
     static {
         //initialize autoclicker macro

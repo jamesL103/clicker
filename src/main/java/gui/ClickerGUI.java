@@ -1,7 +1,6 @@
 package gui;
 
 import clicker.AutoInput;
-import clicker.Clicker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -136,7 +135,7 @@ public class ClickerGUI extends JFrame {
                     INPUT.disableInput();
                     CLICK_STATUS_LABEL.setText("Autoclicker status: inactive");
                 } else {
-                    INPUT.autoInput();
+                    INPUT.activateMacro();
                     CLICK_STATUS_LABEL.setText("Autoclicker status: active");
                 }
             }
