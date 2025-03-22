@@ -58,15 +58,6 @@ public class MacroEditPanel extends JPanel {
     //updates the GUI to display the current macro
     private void updateView() {
         NAME_LABEL.setText(macro.getName());
-        repaint();
-    }
-
-    @Override
-    public void paint (Graphics g) {
-        NAME_LABEL.repaint();
-        SAVE_BUTTON.repaint();
-        CANCEL_BUTTON.repaint();
-        super.paint(g);
     }
 
 

@@ -100,6 +100,7 @@ public class MacroGUI extends JFrame {
     //open macro manager menu
     private void changeMacro() {
         setView(MACRO_MENU_PANEL);
+        MACRO_MENU_PANEL.repaint();
     }
 
     //sets the currently displayed panel
@@ -108,16 +109,10 @@ public class MacroGUI extends JFrame {
             remove(currentView);
             add(view);
             currentView = view;
+            revalidate(); //motherfucker took like an hour just to figure out
             repaint();
         }
     }
-
-    @Override
-    public void paint(Graphics g) {
-        currentView.repaint();
-        super.paint(g);
-    }
-
 
     //action listener for button to change the current macro
     private class changeMacroListener implements ActionListener {

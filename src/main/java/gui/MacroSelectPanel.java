@@ -62,11 +62,5 @@ public class MacroSelectPanel extends JPanel {
         model.addElement(Macros.AUTO_CLICK);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        TITLE.repaint();
-        MACRO_LIST.repaint();
-        super.paint(g);
-    }
 
 }
