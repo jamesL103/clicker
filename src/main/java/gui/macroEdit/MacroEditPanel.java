@@ -1,4 +1,4 @@
-package gui;
+package gui.macroEdit;
 
 import input.macro.Macro;
 
@@ -8,6 +8,10 @@ import java.awt.*;
 public class MacroEditPanel extends JPanel {
 
     public final JLabel NAME_LABEL = new JLabel("default");
+
+    private final JButton SAVE_BUTTON = new JButton("Save changes");
+
+    private final JButton CANCEL_BUTTON = new JButton("Cancel");
 
     //currently edited macro
     private Macro macro;
@@ -24,8 +28,26 @@ public class MacroEditPanel extends JPanel {
         titleConst.weighty = 0.1;
 
         add(NAME_LABEL, titleConst);
-        add(new JButton("######3"));
 
+        addButtons();
+
+    }
+
+    private void addButtons() {
+        JPanel buttonPanel = new JPanel();
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        buttonPanel.add(SAVE_BUTTON);
+        buttonPanel.add(CANCEL_BUTTON);
+
+        add(buttonPanel, gbc);
     }
 
     public void setMacro(Macro macro) {
@@ -42,6 +64,8 @@ public class MacroEditPanel extends JPanel {
     @Override
     public void paint (Graphics g) {
         NAME_LABEL.repaint();
+        SAVE_BUTTON.repaint();
+        CANCEL_BUTTON.repaint();
         super.paint(g);
     }
 

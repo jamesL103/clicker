@@ -1,5 +1,6 @@
 package gui;
 
+import gui.macroEdit.MacroEditPanel;
 import input.macro.Macro;
 import input.macro.Macros;
 
@@ -14,10 +15,8 @@ public class MacroGUI extends JFrame {
 
     private final JPanel MACRO_USE_PANEL = new JPanel();
     private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel();
+    private final MacroSelectPanel MACRO_MENU_PANEL = new MacroSelectPanel();
     private JPanel currentView;
-
-    private final GridBagLayout MACRO_USE_LAYOUT = new GridBagLayout();
-    private final GridBagLayout MACRO_EDIT_LAYOUT = new GridBagLayout();
 
     private final JLabel NAME_LABEL = new JLabel();
     private final JLabel TYPE_LABEL = new JLabel();
@@ -29,14 +28,16 @@ public class MacroGUI extends JFrame {
         add(MACRO_USE_PANEL);
         currentView = MACRO_USE_PANEL;
 
+        setFont(Fonts.NORMAL);
+
         currentMacro = Macros.AUTO_CLICK;
 
-        MACRO_USE_PANEL.setLayout(MACRO_USE_LAYOUT);
+        MACRO_USE_PANEL.setLayout(new GridBagLayout());
 
         addStatusLabels();
         addButtons();
 
-        setSize(new Dimension(400, 300));
+        setSize(new Dimension(1600, 900));
         setTitle("Macro");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -45,7 +46,6 @@ public class MacroGUI extends JFrame {
     //add labels showing macro information to macro use panel
     private void addStatusLabels() {
         JPanel labelPanel = new JPanel();
-        initEditPanel();
 
         NAME_LABEL.setText("Current Macro: " + currentMacro.getName());
         TYPE_LABEL.setText("Macro Type: default");
@@ -70,6 +70,7 @@ public class MacroGUI extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton changeMacroButton = new JButton("Change Macro");
+        changeMacroButton.addActionListener(new changeMacroListener());
 
         JButton editCurrentButton = new JButton("Edit Current Macro");
         editCurrentButton.addActionListener(new editMacroListener());
@@ -90,18 +91,15 @@ public class MacroGUI extends JFrame {
 
     }
 
-    //creates the macro edit panel
-    private void initEditPanel() {
-        MACRO_EDIT_PANEL.setLayout(MACRO_EDIT_LAYOUT);
-
-
-
-    }
-
     //edit current macro
     private void editMacro() {
         setView(MACRO_EDIT_PANEL);
         MACRO_EDIT_PANEL.setMacro(currentMacro);
+    }
+
+    //open macro manager menu
+    private void changeMacro() {
+        setView(MACRO_MENU_PANEL);
     }
 
     //sets the currently displayed panel
@@ -114,13 +112,19 @@ public class MacroGUI extends JFrame {
         }
     }
 
+    @Override
+    public void paint(Graphics g) {
+        currentView.repaint();
+        super.paint(g);
+    }
+
 
     //action listener for button to change the current macro
-    private static class changeMacroListener implements ActionListener {
+    private class changeMacroListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            changeMacro();
         }
     }
 

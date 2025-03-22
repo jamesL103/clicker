@@ -43,6 +43,11 @@ public class Macro {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     /** Types determine how the macro is activated and how many times it will run.
      *  Single types will only run once per activation.
      *  Toggle types will continuously run until toggled off.
