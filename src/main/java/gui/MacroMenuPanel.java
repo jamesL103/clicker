@@ -7,13 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 
 //provides controls to change the currently active macro
-public class MacroSelectPanel extends JPanel {
+public class MacroMenuPanel extends JPanel {
 
     private final JLabel TITLE = new JLabel();
 
     private final JList<Macro> MACRO_LIST = new JList<>();
 
-    public MacroSelectPanel() {
+    public MacroMenuPanel() {
 
         setLayout(new GridBagLayout());
 

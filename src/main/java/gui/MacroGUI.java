@@ -15,7 +15,7 @@ public class MacroGUI extends JFrame {
 
     private final JPanel MACRO_USE_PANEL = new JPanel();
     private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel();
-    private final MacroSelectPanel MACRO_MENU_PANEL = new MacroSelectPanel();
+    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel();
     private JPanel currentView;
 
     private final JLabel NAME_LABEL = new JLabel();
@@ -98,7 +98,7 @@ public class MacroGUI extends JFrame {
     }
 
     //open macro manager menu
-    private void changeMacro() {
+    private void openMacroMenu() {
         setView(MACRO_MENU_PANEL);
         MACRO_MENU_PANEL.repaint();
     }
@@ -114,12 +114,17 @@ public class MacroGUI extends JFrame {
         }
     }
 
+    //changes currently selected macro to specified one
+    private void changeCurrentMacro(Macro macro) {
+        currentMacro = macro;
+    }
+
     //action listener for button to change the current macro
     private class changeMacroListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            changeMacro();
+            openMacroMenu();
         }
     }
 
@@ -130,6 +135,15 @@ public class MacroGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             editMacro();
         }
+    }
+
+    //observer to notify the GUI to update the selected macro
+    private class changeMacroObserver {
+
+        public void changeMacroTo(Macro macro) {
+            changeCurrentMacro(macro);
+        }
+
     }
 
 
