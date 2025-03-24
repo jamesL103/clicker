@@ -29,4 +29,13 @@ public class MacroEvent {
         this.delay = delay;
     }
 
+    /** Constructor for making DELAY events
+     *
+     * @param delayDuration the duration of the delay
+     */
+    public MacroEvent(int delayDuration) {
+        this.type = InputType.DELAY;
+        this.delay = delayDuration;
+    }
+
 }
