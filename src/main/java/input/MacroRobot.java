@@ -17,11 +17,6 @@ public class MacroRobot extends Robot {
         super();
     }
 
-    public MacroRobot(Macro macro) throws AWTException{
-        super();
-        this.macro = macro;
-    }
-
     /** Sets the MacroRobot's macro
      *
      * @param macro the macro to run
