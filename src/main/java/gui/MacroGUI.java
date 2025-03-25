@@ -1,5 +1,6 @@
 package gui;
 
+import IO.FileManager;
 import gui.macroEdit.MacroEditPanel;
 import input.macro.Macro;
 import input.macro.Macros;
@@ -21,6 +22,8 @@ public class MacroGUI extends JFrame {
     private final JLabel NAME_LABEL = new JLabel();
     private final JLabel TYPE_LABEL = new JLabel();
     private final JLabel STATUS_LABEL = new JLabel("Macro Status: Inactive");
+
+    private final FileManager FILE_MANAGER = new FileManager();
 
     public MacroGUI() {
 

@@ -56,6 +56,8 @@ public class MacroLoader {
         return macro;
     }
 
+    //read the sequence of MacroEvents and return them as a list
+    //todo: fix byte traversal logic
     private static List<MacroEvent> readInputSequence(String sequence) {
         List<MacroEvent> inputList = new ArrayList<>();
 

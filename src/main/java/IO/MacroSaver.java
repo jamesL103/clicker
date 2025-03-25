@@ -3,6 +3,7 @@ package IO;
 import input.macro.Macro;
 import input.macro.MacroEvent;
 
+import java.awt.event.InputEvent;
 import java.io.*;
 import java.util.Scanner;
 
@@ -13,6 +14,9 @@ public class MacroSaver {
         FileWriter out;
 
         try {
+            //create file if it does not exist
+            file.createNewFile();
+
             out = new FileWriter(file);
             out.write(macro.getName() + ",");
             //write type byte
@@ -30,21 +34,43 @@ public class MacroSaver {
                 for (MacroEvent event: macro.getInputSequence()) {
                     if (event.type == MacroEvent.InputType.MOUSE_PRESS) {
                         stream.write((byte) 0b1);
+                        writeMouseButtonCode(stream, event.input_code);
+                    } else if (event.type == MacroEvent.InputType.MOUSE_RELEASE) {
+                        stream.write((byte) (0b1 << 1));
+                        writeMouseButtonCode(stream, event.input_code);
+                    } else if (event.type == MacroEvent.InputType.KEY_PRESS) {
+                        stream.write((byte) (0b1<<2));
+                        stream.write(event.input_code);
+                    } else if (event.type == MacroEvent.InputType.KEY_RELEASE) {
+                        stream.write((byte) (0b1<<3));
+                        stream.write(event.input_code);
+                    } else { //write delay
+                        stream.write((byte) 0b1 <<4);
+                        stream.write(event.delay);
                     }
                 }
 
             } catch (FileNotFoundException e) {
-
+                System.err.println("Error: Couldn't find file \"" + file.getPath() + "\"");
             }
 
         } catch (IOException e) {
            System.err.println("Saving Error: can't save to file \"" + path + "\"");
+           System.err.println(e.getMessage());
            return;
         }
 
+    }
 
-
-
+    //helper to write the appropriate byte representation of the mouse button code for the MacroEvent
+    //Button1 = 1
+    //button2 = 2
+    private void writeMouseButtonCode(FileOutputStream stream, int code) throws IOException{
+        if (code == InputEvent.BUTTON1_MASK) {
+            stream.write((byte) 1);
+        } else {
+            stream.write((byte) 2);
+        }
     }
 
 
