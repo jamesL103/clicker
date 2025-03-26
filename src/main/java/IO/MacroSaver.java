@@ -5,7 +5,6 @@ import input.macro.MacroEvent;
 
 import java.awt.event.InputEvent;
 import java.io.*;
-import java.util.Scanner;
 
 public class MacroSaver {
 
@@ -22,15 +21,16 @@ public class MacroSaver {
             //write type byte
             Macro.MacroType type = macro.getType();
             if (type == Macro.MacroType.SINGLE) {
-                out.write(0);
+                out.append((char)0);
             } else {
-                out.write(0b1);
+                out.append((char)0b1);
             }
 
-            out.write(",");
+            out.append(",");
+            out.close();
 
             try { //for writing the sequence of inputs
-                FileOutputStream stream = new FileOutputStream(file);
+                FileOutputStream stream = new FileOutputStream(file, true);
                 for (MacroEvent event: macro.getInputSequence()) {
                     if (event.type == MacroEvent.InputType.MOUSE_PRESS) {
                         stream.write((byte) 0b1);
@@ -49,6 +49,7 @@ public class MacroSaver {
                         stream.write(event.delay);
                     }
                 }
+                stream.close();
 
             } catch (FileNotFoundException e) {
                 System.err.println("Error: Couldn't find file \"" + file.getPath() + "\"");
