@@ -4,7 +4,7 @@ import input.macro.Macro;
 
 public class FileManager {
 
-    public static final String MACRO_DIR = ".";
+    public static final String MACRO_DIR = "./macros";
 
     private final MacroSaver SAVE = new MacroSaver();
     private final MacroLoader LOAD = new MacroLoader();

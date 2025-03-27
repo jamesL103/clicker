@@ -16,8 +16,8 @@ public class MacroEvent {
     public int input_code;
 
     //delay in milliseconds
-    //will be null if type is not DELAY
-    public int delay;
+    //only used if type = DELAY
+    public int delay = 0;
 
     public MacroEvent(InputType type, int code) {
         this.type = type;
@@ -36,6 +36,30 @@ public class MacroEvent {
     public MacroEvent(int delayDuration) {
         this.type = InputType.DELAY;
         this.delay = delayDuration;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MacroEvent)) {
+            return false;
+        }
+        MacroEvent other = (MacroEvent) obj;
+        return (type == other.type) && (input_code == other.input_code) && (delay == other.delay);
+    }
+
+    @Override
+    public int hashCode() {
+        if (type == InputType.MOUSE_PRESS) {
+            return input_code * 123 + delay * 89;
+        } else if (type == InputType.MOUSE_RELEASE) {
+            return input_code * (int)Math.pow(123, 2) + delay * 89;
+        } else if (type == InputType.KEY_PRESS) {
+            return input_code * (int)Math.pow(123, 3) + delay * 89;
+        } else if (type == InputType.KEY_RELEASE) {
+            return input_code * (int)Math.pow(123, 4) + delay * 89;
+        } else {
+            return input_code * (int)Math.pow(123, 5) + delay * 89;
+        }
     }
 
 }

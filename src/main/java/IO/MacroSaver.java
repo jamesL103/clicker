@@ -5,6 +5,7 @@ import input.macro.MacroEvent;
 
 import java.awt.event.InputEvent;
 import java.io.*;
+import java.nio.ByteBuffer;
 
 public class MacroSaver {
 
@@ -40,13 +41,13 @@ public class MacroSaver {
                         writeMouseButtonCode(stream, event.input_code);
                     } else if (event.type == MacroEvent.InputType.KEY_PRESS) {
                         stream.write((byte) (0b1<<2));
-                        stream.write(event.input_code);
+                        stream.write(ByteBuffer.allocate(Integer.BYTES).putInt(event.input_code).array());
                     } else if (event.type == MacroEvent.InputType.KEY_RELEASE) {
                         stream.write((byte) (0b1<<3));
-                        stream.write(event.input_code);
+                        stream.write(ByteBuffer.allocate(Integer.BYTES).putInt(event.input_code).array());
                     } else { //write delay
                         stream.write((byte) 0b1 <<4);
-                        stream.write(event.delay);
+                        stream.write(ByteBuffer.allocate(Integer.BYTES).putInt(event.delay).array());
                     }
                 }
                 stream.close();
@@ -58,7 +59,6 @@ public class MacroSaver {
         } catch (IOException e) {
            System.err.println("Saving Error: can't save to file \"" + path + "\"");
            System.err.println(e.getMessage());
-           return;
         }
 
     }
