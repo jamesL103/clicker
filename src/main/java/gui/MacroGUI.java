@@ -14,16 +14,18 @@ public class MacroGUI extends JFrame {
 
     private Macro currentMacro;
 
+
+    private final FileManager FILE_MANAGER = new FileManager();
+
     private final JPanel MACRO_USE_PANEL = new JPanel();
     private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel();
-    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel();
+    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel(FILE_MANAGER);
     private JPanel currentView;
 
     private final JLabel NAME_LABEL = new JLabel();
     private final JLabel TYPE_LABEL = new JLabel();
     private final JLabel STATUS_LABEL = new JLabel("Macro Status: Inactive");
 
-    private final FileManager FILE_MANAGER = new FileManager();
 
     public MacroGUI() {
 
