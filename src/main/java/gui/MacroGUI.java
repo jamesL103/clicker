@@ -19,7 +19,7 @@ public class MacroGUI extends JFrame {
 
     private final JPanel MACRO_USE_PANEL = new JPanel();
     private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel();
-    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel(FILE_MANAGER, new ExitViewObserver());
+    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel(FILE_MANAGER, new ExitViewObserver(), new ChangeMacroObserver());
     private JPanel currentView;
 
     private final JLabel NAME_LABEL = new JLabel();
@@ -33,12 +33,13 @@ public class MacroGUI extends JFrame {
         add(MACRO_USE_PANEL);
         currentView = MACRO_USE_PANEL;
 
-        //initialize panel observers
-        MACRO_MENU_PANEL.setExitObserver(new ExitViewObserver());
+
+        currentMacro = Macros.AUTO_CLICK;
+        MACRO_MENU_PANEL.setMacro(currentMacro);
+        MACRO_EDIT_PANEL.setMacro(currentMacro);
 
         setFont(Fonts.NORMAL);
 
-        currentMacro = Macros.AUTO_CLICK;
 
         MACRO_USE_PANEL.setLayout(new GridBagLayout());
 
@@ -55,8 +56,7 @@ public class MacroGUI extends JFrame {
     private void addStatusLabels() {
         JPanel labelPanel = new JPanel();
 
-        NAME_LABEL.setText("Current Macro: " + currentMacro.getName());
-        TYPE_LABEL.setText("Macro Type: default");
+        updateLabels();
 
         labelPanel.add(NAME_LABEL);
         labelPanel.add(TYPE_LABEL);
@@ -122,9 +122,17 @@ public class MacroGUI extends JFrame {
         }
     }
 
+    //update labels when macro is changed
+    private void updateLabels() {
+        NAME_LABEL.setText("Current Macro: " + currentMacro.getName());
+        TYPE_LABEL.setText("Macro Type: default");
+        repaint();
+    }
+
     //changes currently selected macro to specified one
     private void changeCurrentMacro(Macro macro) {
         currentMacro = macro;
+        updateLabels();
     }
 
     //action listener for button to change the current macro
@@ -146,7 +154,7 @@ public class MacroGUI extends JFrame {
     }
 
     //observer to notify the GUI to update the selected macro
-    private class changeMacroObserver {
+    public class ChangeMacroObserver {
 
         public void changeMacroTo(Macro macro) {
             changeCurrentMacro(macro);

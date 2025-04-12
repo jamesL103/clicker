@@ -11,9 +11,7 @@ public class Main {
             System.err.println(e.getMessage());
         }
 
-        SwingUtilities.invokeLater(() -> {
-            MacroGUI gui = new MacroGUI();
-        });
+        SwingUtilities.invokeLater(MacroGUI::new);
     }
 
 }

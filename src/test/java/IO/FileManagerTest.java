@@ -2,7 +2,6 @@ package IO;
 
 import input.macro.Macro;
 import input.macro.MacroEvent;
-import input.macro.Macros;
 import org.junit.jupiter.api.Test;
 
 import java.awt.event.KeyEvent;

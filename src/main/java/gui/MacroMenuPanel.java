@@ -5,8 +5,6 @@ import input.macro.Macro;
 import input.macro.Macros;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,14 +22,17 @@ public class MacroMenuPanel extends JPanel {
     private Macro currentMacro;
 
     private MacroGUI.ExitViewObserver exitObserver;
+    //observer for selecting a new macro
+    private MacroGUI.ChangeMacroObserver changeObserver;
 
     //instance of exit button listener
     private final ExitButtonListener EXIT_LISTENER = new ExitButtonListener();
 
-    public MacroMenuPanel(FileManager manager, MacroGUI.ExitViewObserver exitObserver) {
+    public MacroMenuPanel(FileManager manager, MacroGUI.ExitViewObserver exitObserver, MacroGUI.ChangeMacroObserver changeObserver) {
 
         MANAGER = manager;
         this.exitObserver = exitObserver;
+        this.changeObserver = changeObserver;
 
         setLayout(new GridBagLayout());
 
@@ -86,7 +87,10 @@ public class MacroMenuPanel extends JPanel {
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener(EXIT_LISTENER);
 
-        buttons.add(new JButton("Select"));
+        JButton select = new JButton("Select");
+        select.addActionListener(new SelectMacroListener());
+
+        buttons.add(select);
         buttons.add(cancel);
 
         add(buttons, gbc);
@@ -127,6 +131,10 @@ public class MacroMenuPanel extends JPanel {
         MACRO_LIST.setModel(updated);
     }
 
+    public void setMacro(Macro macro) {
+        currentMacro = macro;
+    }
+
     //add all preset Macros to the list
     private static void addPresetMacros(DefaultListModel<String> model) {
         model.addElement(Macros.AUTO_CLICK.getName());
@@ -136,15 +144,22 @@ public class MacroMenuPanel extends JPanel {
         this.exitObserver = exitObserver;
     }
 
-    private class MacroSelectListener implements ListSelectionListener {
+    public void setMacroSelectObserver(MacroGUI.ChangeMacroObserver observer) {
+        changeObserver = observer;
+    }
+
+    //listener for when macro select button is pressed
+    private class SelectMacroListener implements ActionListener {
 
         @Override
-        public void valueChanged(ListSelectionEvent e) {
-            if (!e.getValueIsAdjusting()) {
-                if (currentMacro.getName().equals(MACRO_LIST.getSelectedValue())) {
-                    currentMacro = MANAGER.loadMacro(MACRO_LIST.getSelectedValue());
-                }
+        public void actionPerformed(ActionEvent e) {
+            if (MACRO_LIST.getSelectedValue().equals(currentMacro.getName())) {
+                return;
             }
+            Macro selected = MANAGER.loadMacro(MACRO_LIST.getSelectedValue());
+            currentMacro = selected;
+            changeObserver.changeMacroTo(currentMacro);
+            exitObserver.notifyExit();
         }
     }
 
