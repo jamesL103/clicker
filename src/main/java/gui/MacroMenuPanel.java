@@ -21,9 +21,9 @@ public class MacroMenuPanel extends JPanel {
 
     private Macro currentMacro;
 
-    private MacroGUI.ExitViewObserver exitObserver;
+    private final MacroGUI.ExitViewObserver exitObserver;
     //observer for selecting a new macro
-    private MacroGUI.ChangeMacroObserver changeObserver;
+    private final MacroGUI.ChangeMacroObserver changeObserver;
 
     //instance of exit button listener
     private final ExitButtonListener EXIT_LISTENER = new ExitButtonListener();
@@ -140,14 +140,6 @@ public class MacroMenuPanel extends JPanel {
         model.addElement(Macros.AUTO_CLICK.getName());
     }
 
-    public void setExitObserver(MacroGUI.ExitViewObserver exitObserver) {
-        this.exitObserver = exitObserver;
-    }
-
-    public void setMacroSelectObserver(MacroGUI.ChangeMacroObserver observer) {
-        changeObserver = observer;
-    }
-
     //listener for when macro select button is pressed
     private class SelectMacroListener implements ActionListener {
 
@@ -156,8 +148,7 @@ public class MacroMenuPanel extends JPanel {
             if (MACRO_LIST.getSelectedValue().equals(currentMacro.getName())) {
                 return;
             }
-            Macro selected = MANAGER.loadMacro(MACRO_LIST.getSelectedValue());
-            currentMacro = selected;
+            currentMacro = MANAGER.loadMacro(MACRO_LIST.getSelectedValue());
             changeObserver.changeMacroTo(currentMacro);
             exitObserver.notifyExit();
         }
