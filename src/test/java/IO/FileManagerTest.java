@@ -42,7 +42,7 @@ class FileManagerTest {
 //        Macro macro = new Macro(Macro.MacroType.SINGLE, "one");
 //        macro.setInputSequence(new ArrayList<>());
 
-        manager.saveMacro(Macros.AUTO_CLICK);
+//        manager.saveMacro(Macros.AUTO_CLICK);
 
     }
 

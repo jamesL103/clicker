@@ -11,7 +11,7 @@ public class Macros {
 
 
     //autoclicking macro
-    public static final Macro AUTO_CLICK = new Macro(Macro.MacroType.TOGGLE, "Auto Clicker");
+    public static final Macro AUTO_CLICK = new Macro(Macro.MacroType.TOGGLE, "Auto Clicker Default");
 
     static {
         //initialize autoclicker macro

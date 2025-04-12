@@ -19,7 +19,7 @@ public class MacroGUI extends JFrame {
 
     private final JPanel MACRO_USE_PANEL = new JPanel();
     private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel();
-    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel(FILE_MANAGER);
+    private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel(FILE_MANAGER, new ExitViewObserver());
     private JPanel currentView;
 
     private final JLabel NAME_LABEL = new JLabel();
@@ -32,6 +32,9 @@ public class MacroGUI extends JFrame {
 
         add(MACRO_USE_PANEL);
         currentView = MACRO_USE_PANEL;
+
+        //initialize panel observers
+        MACRO_MENU_PANEL.setExitObserver(new ExitViewObserver());
 
         setFont(Fonts.NORMAL);
 
@@ -147,6 +150,16 @@ public class MacroGUI extends JFrame {
 
         public void changeMacroTo(Macro macro) {
             changeCurrentMacro(macro);
+        }
+
+    }
+
+    //observer to notify closing other view panels
+    //and setting back to default view
+    public class ExitViewObserver {
+
+        public void notifyExit() {
+            setView(MACRO_USE_PANEL);
         }
 
     }

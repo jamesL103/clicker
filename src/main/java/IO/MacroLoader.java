@@ -77,7 +77,6 @@ public class MacroLoader {
     Type key press or key release: int follows representing KeyEvent key code
     Type delay: int follows representing delay time in ms
      */
-    //todo: fix byte traversal logic
     private static List<MacroEvent> readInputSequence(FileInputStream input) throws IOException {
         List<MacroEvent> inputList = new ArrayList<>();
 
