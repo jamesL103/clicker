@@ -12,6 +12,7 @@ import input.macro.Macros;
 
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -44,6 +45,8 @@ public class MacroGUI extends JFrame {
         addFocusListener(new AppFocusListener());
         addMouseListener(new MouseEnterListener());
 
+        setFont(Fonts.NORMAL);
+
         add(MACRO_USE_PANEL);
         currentView = MACRO_USE_PANEL;
 
@@ -59,7 +62,6 @@ public class MacroGUI extends JFrame {
         addStatusLabels();
         addButtons();
 
-        setFont(Fonts.NORMAL);
         setSize(new Dimension(600, 400));
         setTitle("Macro");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -73,8 +75,15 @@ public class MacroGUI extends JFrame {
         updateLabels();
 
         labelPanel.add(NAME_LABEL);
+        NAME_LABEL.setHorizontalAlignment(SwingConstants.CENTER);
+        NAME_LABEL.setBorder(new EmptyBorder(0, 0, 0, 10));
+        NAME_LABEL.setFont(Fonts.NORMAL);
         labelPanel.add(TYPE_LABEL);
+        TYPE_LABEL.setBorder(new EmptyBorder(0, 10, 0, 10));
+        TYPE_LABEL.setFont(Fonts.NORMAL);
         labelPanel.add(STATUS_LABEL);
+        STATUS_LABEL.setBorder(new EmptyBorder(0, 10, 0, 0));
+        STATUS_LABEL.setFont(Fonts.NORMAL);
 
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.gridx = 0;
@@ -107,7 +116,7 @@ public class MacroGUI extends JFrame {
         constraints.gridy = 2;
         constraints.weightx = 0.5;
         constraints.weighty = 0.1;
-        constraints.insets = new Insets(0, 0, 0, 100);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 
         MACRO_USE_PANEL.add(buttonPanel, constraints);
 
@@ -148,6 +157,24 @@ public class MacroGUI extends JFrame {
         updateLabels();
     }
 
+
+    //activates input and updates status
+    public void activateInput() {
+        if (INPUT.isActive()) {
+            return;
+        }
+        INPUT.activate();
+        if (currentMacro.getType() != Macro.MacroType.SINGLE) {
+            STATUS_LABEL.setText(STATUS_MESSAGE + "Active");
+        }
+    }
+
+    //disables input and updates status
+    public void disableInput() {
+        INPUT.disableInput();
+        STATUS_LABEL.setText(STATUS_MESSAGE + "Inactive");
+    }
+
     //action listener for button to change the current macro
     private class changeMacroListener implements ActionListener {
 
@@ -183,23 +210,6 @@ public class MacroGUI extends JFrame {
             setView(MACRO_USE_PANEL);
         }
 
-    }
-
-    //activates input and updates status
-    public void activateInput() {
-        if (INPUT.isActive()) {
-            return;
-        }
-        INPUT.activate();
-        if (currentMacro.getType() != Macro.MacroType.SINGLE) {
-            STATUS_LABEL.setText(STATUS_MESSAGE + "active");
-        }
-    }
-
-    //disables input and updates status
-    public void disableInput() {
-        INPUT.disableInput();
-        STATUS_LABEL.setText(STATUS_MESSAGE + "inactive");
     }
 
     //native input listener for toggling macro

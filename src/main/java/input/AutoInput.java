@@ -10,9 +10,6 @@ public class AutoInput {
     //note: this causes a data race. This is bad but it should still work
     private boolean inputActive = false;
 
-    //thread to generate input
-    private Thread input;
-
     //robot object to provide input
     private MacroRobot rob;
 
@@ -33,6 +30,8 @@ public class AutoInput {
      */
     public void activate() {
 
+        //thread to generate input
+        Thread input;
         if (rob.getMacroType() == Macro.MacroType.SINGLE) {
             input = new Thread(() -> rob.runMacro());
         } else if (!inputActive) {
