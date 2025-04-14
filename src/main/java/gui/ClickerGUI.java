@@ -74,7 +74,6 @@ public class ClickerGUI extends JFrame {
             try { //checks if there is a valid int to parse from the text field
                 int freq = Integer.parseInt(frequencyField.getText());
                 if (freq > 0) {
-                    INPUT.setFrequency(freq);
                     CLICKER_FREQ_LABEL.setText("AutoClicker Frequency: 0 clicks/s");
                 }
             } catch (NumberFormatException ignored) { //if no valid int, do nothing
@@ -135,7 +134,7 @@ public class ClickerGUI extends JFrame {
                     INPUT.disableInput();
                     CLICK_STATUS_LABEL.setText("Autoclicker status: inactive");
                 } else {
-                    INPUT.activateMacro();
+                    INPUT.activate();
                     CLICK_STATUS_LABEL.setText("Autoclicker status: active");
                 }
             }

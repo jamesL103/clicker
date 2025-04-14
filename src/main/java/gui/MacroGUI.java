@@ -1,14 +1,19 @@
 package gui;
 
 import IO.FileManager;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import gui.macroEdit.MacroEditPanel;
+import input.AutoInput;
 import input.macro.Macro;
 import input.macro.Macros;
 
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MacroGUI extends JFrame {
 
@@ -25,20 +30,28 @@ public class MacroGUI extends JFrame {
     private final JLabel NAME_LABEL = new JLabel();
     private final JLabel TYPE_LABEL = new JLabel();
     private final JLabel STATUS_LABEL = new JLabel("Macro Status: Inactive");
+    private static final String STATUS_MESSAGE = "Macro Status: ";
+
+    //input object
+    private final AutoInput INPUT = new AutoInput();
 
 
     public MacroGUI() {
 
+        new NativeInputListener();
+
+        //listeners that disable macro input for safety reasons
+        addFocusListener(new AppFocusListener());
+        addMouseListener(new MouseEnterListener());
 
         add(MACRO_USE_PANEL);
         currentView = MACRO_USE_PANEL;
 
 
         currentMacro = Macros.AUTO_CLICK;
+        INPUT.setMacro(currentMacro);
         MACRO_MENU_PANEL.setMacro(currentMacro);
         MACRO_EDIT_PANEL.setMacro(currentMacro);
-
-        setFont(Fonts.NORMAL);
 
 
         MACRO_USE_PANEL.setLayout(new GridBagLayout());
@@ -46,7 +59,8 @@ public class MacroGUI extends JFrame {
         addStatusLabels();
         addButtons();
 
-        setSize(new Dimension(1600, 900));
+        setFont(Fonts.NORMAL);
+        setSize(new Dimension(600, 400));
         setTitle("Macro");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -126,7 +140,6 @@ public class MacroGUI extends JFrame {
     private void updateLabels() {
         NAME_LABEL.setText("Current Macro: " + currentMacro.getName());
         TYPE_LABEL.setText("Macro Type: default");
-        repaint();
     }
 
     //changes currently selected macro to specified one
@@ -172,8 +185,92 @@ public class MacroGUI extends JFrame {
 
     }
 
+    //activates input and updates status
+    public void activateInput() {
+        if (INPUT.isActive()) {
+            return;
+        }
+        INPUT.activate();
+        if (currentMacro.getType() != Macro.MacroType.SINGLE) {
+            STATUS_LABEL.setText(STATUS_MESSAGE + "active");
+        }
+    }
 
+    //disables input and updates status
+    public void disableInput() {
+        INPUT.disableInput();
+        STATUS_LABEL.setText(STATUS_MESSAGE + "inactive");
+    }
 
+    //native input listener for toggling macro
+    private class NativeInputListener implements NativeKeyListener {
+
+        @Override
+        public void nativeKeyPressed(NativeKeyEvent e) {
+            if (e.getKeyCode() == NativeKeyEvent.VC_Q && (e.getModifiers() & NativeKeyEvent.ALT_L_MASK) != 0) {
+                if (INPUT.isActive()) {
+                    disableInput();
+                } else {
+                    activateInput();
+                }
+            }
+        }
+
+        public NativeInputListener() {
+            try {
+                GlobalScreen.registerNativeHook();
+            } catch (NativeHookException e) {
+                System.err.println("Error registering native input hook");
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+
+            GlobalScreen.addNativeKeyListener(this);
+        }
+    }
+
+    //listener for when focus is gained on the application
+    private class AppFocusListener implements FocusListener {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            disableInput();
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+
+        }
+    }
+
+    //listener for mouse entering the application
+    private class MouseEnterListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            disableInput();
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
 
 
 }

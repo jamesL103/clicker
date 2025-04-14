@@ -88,7 +88,7 @@ public class MacroMenuPanel extends JPanel {
         cancel.addActionListener(EXIT_LISTENER);
 
         JButton select = new JButton("Select");
-        select.addActionListener(new SelectMacroListener());
+        select.addActionListener(new SelectMacroButtonListener());
 
         buttons.add(select);
         buttons.add(cancel);
@@ -141,14 +141,17 @@ public class MacroMenuPanel extends JPanel {
     }
 
     //listener for when macro select button is pressed
-    private class SelectMacroListener implements ActionListener {
+    private class SelectMacroButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (MACRO_LIST.getSelectedValue().equals(currentMacro.getName())) {
                 return;
+            } else if (MACRO_LIST.getSelectedValue().equals(Macros.AUTO_CLICK.getName())) {
+                currentMacro = Macros.AUTO_CLICK;
+            } else {
+                currentMacro = MANAGER.loadMacro(MACRO_LIST.getSelectedValue());
             }
-            currentMacro = MANAGER.loadMacro(MACRO_LIST.getSelectedValue());
             changeObserver.changeMacroTo(currentMacro);
             exitObserver.notifyExit();
         }

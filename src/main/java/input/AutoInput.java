@@ -6,10 +6,8 @@ import java.awt.*;
 
 public class AutoInput {
 
-    //attempted inputs per second, anything above approx. 1000 results in max rate
-    private int frequency = 10;
-
     //determines whether auto input is enabled
+    //note: this causes a data race. This is bad but it should still work
     private boolean inputActive = false;
 
     //thread to generate input
@@ -24,6 +22,7 @@ public class AutoInput {
             rob = new MacroRobot();
         } catch (AWTException e) {
             System.err.println("Error: unable to access input controls");
+            System.err.println(e.getMessage());
         }
 
     }
@@ -32,7 +31,7 @@ public class AutoInput {
     /** Activates the currently active macro
      *
      */
-    public void activateMacro() {
+    public void activate() {
 
         if (rob.getMacroType() == Macro.MacroType.SINGLE) {
             input = new Thread(() -> rob.runMacro());
@@ -42,6 +41,7 @@ public class AutoInput {
                 while (inputActive) {
                     rob.runMacro();
                 }
+                rob.waitForIdle();
             });
             input.start();//start the thread
         }
@@ -70,17 +70,5 @@ public class AutoInput {
         rob.setMacro(macro);
     }
 
-    /**Sets the frequency of the auto input to a specified integer.
-     * Frequency is the number of times
-     * value of 1.The maximum value before delay goes to zero is 1000.
-     *
-     * @param freq the frequency, in clicks/second
-     */
-    public void setFrequency(int freq) {
-        if (freq < 1) {
-            throw new IllegalArgumentException("Error: Invalid frequency of " + freq);
-        }
-        frequency = freq;
-    }
 
 }
