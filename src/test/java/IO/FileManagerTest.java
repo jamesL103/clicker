@@ -48,7 +48,7 @@ class FileManagerTest {
     @Test
     public void loadKeyMacro() {
         FileManager manager = new FileManager();
-        Macro save = new Macro(Macro.MacroType.SINGLE, "keys");
+        Macro save = new Macro(Macro.MacroType.SINGLE, "keys", true);
 
         List<MacroEvent> list = new ArrayList<>();
 

@@ -35,7 +35,7 @@ public class MacroLoader {
             return Macros.AUTO_CLICK;
         }
 
-        Macro macro = new Macro(Macro.MacroType.SINGLE, "default");
+        Macro macro = new Macro(Macro.MacroType.SINGLE, "default", false);
         try {
             byte curr = (byte) in.read();
             String name = "";

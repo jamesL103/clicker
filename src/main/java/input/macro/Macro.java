@@ -14,9 +14,12 @@ public class Macro {
 
     private String name;
 
-    public Macro(MacroType type, String name) {
+    private final boolean PRESET;
+
+    public Macro(MacroType type, String name, boolean preset) {
         this.type = type;
         this.name = name;
+        this.PRESET = preset;
     }
 
     public void setType(MacroType type) {
@@ -46,6 +49,10 @@ public class Macro {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean isPreset() {
+        return PRESET;
     }
 
     /** Types determine how the macro is activated and how many times it will run.

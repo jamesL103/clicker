@@ -33,6 +33,8 @@ public class MacroGUI extends JFrame {
     private final JLabel STATUS_LABEL = new JLabel("Macro Status: Inactive");
     private static final String STATUS_MESSAGE = "Macro Status: ";
 
+    private final JButton EDIT_BUTTON = new JButton("Edit Current Macro");
+
     //input object
     private final AutoInput INPUT = new AutoInput();
 
@@ -50,12 +52,7 @@ public class MacroGUI extends JFrame {
         add(MACRO_USE_PANEL);
         currentView = MACRO_USE_PANEL;
 
-
-        currentMacro = Macros.AUTO_CLICK;
-        INPUT.setMacro(currentMacro);
-        MACRO_MENU_PANEL.setMacro(currentMacro);
-        MACRO_EDIT_PANEL.setMacro(currentMacro);
-
+        changeCurrentMacro(Macros.AUTO_CLICK);
 
         MACRO_USE_PANEL.setLayout(new GridBagLayout());
 
@@ -125,12 +122,11 @@ public class MacroGUI extends JFrame {
         JButton changeMacroButton = new JButton("Change Macro");
         changeMacroButton.addActionListener(new changeMacroListener());
 
-        JButton editCurrentButton = new JButton("Edit Current Macro");
-        editCurrentButton.addActionListener(new editMacroListener());
+        EDIT_BUTTON.addActionListener(new editMacroListener());
 
 
         buttonPanel.add(changeMacroButton);
-        buttonPanel.add(editCurrentButton);
+        buttonPanel.add(EDIT_BUTTON);
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -176,6 +172,16 @@ public class MacroGUI extends JFrame {
     //changes currently selected macro to specified one
     private void changeCurrentMacro(Macro macro) {
         currentMacro = macro;
+        INPUT.setMacro(currentMacro);
+        MACRO_MENU_PANEL.setMacro(currentMacro);
+        MACRO_EDIT_PANEL.setMacro(currentMacro);
+
+        if (currentMacro.isPreset()) {
+            //disable editing buttons
+            EDIT_BUTTON.setEnabled(false);
+        } else {
+            EDIT_BUTTON.setEnabled(true);
+        }
         updateLabels();
     }
 
@@ -229,7 +235,7 @@ public class MacroGUI extends JFrame {
     public class ExitViewObserver {
 
         public void notifyExit() {
-            setView(MACRO_USE_PANEL);
+                setView(MACRO_USE_PANEL);
         }
 
     }
