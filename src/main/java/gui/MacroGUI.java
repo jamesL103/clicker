@@ -120,9 +120,9 @@ public class MacroGUI extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton changeMacroButton = new JButton("Change Macro");
-        changeMacroButton.addActionListener(new changeMacroListener());
+        changeMacroButton.addActionListener(new ChangeMacroButtonListener());
 
-        EDIT_BUTTON.addActionListener(new editMacroListener());
+        EDIT_BUTTON.addActionListener(new EditMacroListener());
 
 
         buttonPanel.add(changeMacroButton);
@@ -149,7 +149,6 @@ public class MacroGUI extends JFrame {
     //open macro manager menu
     private void openMacroMenu() {
         setView(MACRO_MENU_PANEL);
-        MACRO_MENU_PANEL.repaint();
     }
 
     //sets the currently displayed panel
@@ -163,14 +162,18 @@ public class MacroGUI extends JFrame {
         }
     }
 
-    //update labels when macro is changed
+    //update informational labels when macro is changed
     private void updateLabels() {
         NAME_LABEL.setText("Current Macro: " + currentMacro.getName());
-        TYPE_LABEL.setText("Macro Type: default");
+        TYPE_LABEL.setText("Macro Type: " + currentMacro.getType().toString());
     }
 
     //changes currently selected macro to specified one
     private void changeCurrentMacro(Macro macro) {
+        if (macro.equals(currentMacro)) {
+            return;
+        }
+
         currentMacro = macro;
         INPUT.setMacro(currentMacro);
         MACRO_MENU_PANEL.setMacro(currentMacro);
@@ -204,7 +207,7 @@ public class MacroGUI extends JFrame {
     }
 
     //action listener for button to change the current macro
-    private class changeMacroListener implements ActionListener {
+    private class ChangeMacroButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -213,7 +216,7 @@ public class MacroGUI extends JFrame {
     }
 
     //action listener for button to edit current macro
-    private class editMacroListener implements ActionListener {
+    private class EditMacroListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

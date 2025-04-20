@@ -64,7 +64,18 @@ public class Macro {
      *  Toggle types will continuously run until toggled off.
      */
     public enum MacroType {
-        SINGLE, TOGGLE
+        SINGLE("single"), TOGGLE("toggle");
+
+        private final String NAME;
+
+        MacroType(String display) {
+            NAME = display;
+        }
+
+        @Override
+        public String toString() {
+            return NAME;
+        }
     }
 
 
