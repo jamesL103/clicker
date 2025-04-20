@@ -110,7 +110,8 @@ public class MacroEditPanel extends JPanel {
 
     //resets the temp list to the macro's sequence
     public void resetTempList() {
-        Collections.copy(tempList, currentMacro.getInputSequence());
+        tempList.clear();
+        tempList.addAll(currentMacro.getInputSequence());
     }
 
     public void setMacro(Macro macro) {

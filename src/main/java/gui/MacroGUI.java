@@ -60,6 +60,7 @@ public class MacroGUI extends JFrame {
         MACRO_USE_PANEL.setLayout(new GridBagLayout());
 
         addStatusLabels();
+        addHints();
         addButtons();
 
         setSize(new Dimension(600, 400));
@@ -77,23 +78,44 @@ public class MacroGUI extends JFrame {
         labelPanel.add(NAME_LABEL);
         NAME_LABEL.setHorizontalAlignment(SwingConstants.CENTER);
         NAME_LABEL.setBorder(new EmptyBorder(0, 0, 0, 10));
-        NAME_LABEL.setFont(Fonts.NORMAL);
+        NAME_LABEL.setFont(Fonts.HEADER);
         labelPanel.add(TYPE_LABEL);
         TYPE_LABEL.setBorder(new EmptyBorder(0, 10, 0, 10));
-        TYPE_LABEL.setFont(Fonts.NORMAL);
+        TYPE_LABEL.setFont(Fonts.HEADER);
         labelPanel.add(STATUS_LABEL);
         STATUS_LABEL.setBorder(new EmptyBorder(0, 10, 0, 0));
-        STATUS_LABEL.setFont(Fonts.NORMAL);
+        STATUS_LABEL.setFont(Fonts.HEADER);
 
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.gridx = 0;
         labelConstraints.gridy = 1;
         labelConstraints.weightx = 1.0;
         labelConstraints.weighty = 0.2;
-        labelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        labelConstraints.fill = GridBagConstraints.BOTH;
 
         MACRO_USE_PANEL.add(labelPanel, labelConstraints);
 
+    }
+
+    private void addHints() {
+        JPanel hintPanel = new JPanel();
+        JLabel hotkey = new JLabel("Press ctrl + q to toggle the macro.");
+        JLabel warning = new JLabel("Using a macro containing inputs in the toggle hotkey is" +
+                " NOT recommended.");
+
+        warning.setForeground(Color.RED);
+
+        hintPanel.add(hotkey);
+        hintPanel.add(warning);
+
+        GridBagConstraints infoConstraints = new GridBagConstraints();
+        infoConstraints.gridx = 0;
+        infoConstraints.gridy = 2;
+        infoConstraints.weightx = 1.0;
+        infoConstraints.weighty = 0.4;
+        infoConstraints.fill = GridBagConstraints.BOTH;
+
+        MACRO_USE_PANEL.add(hintPanel, infoConstraints);
     }
 
     //add buttons for changing macro or editing
@@ -113,7 +135,7 @@ public class MacroGUI extends JFrame {
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         constraints.weightx = 0.5;
         constraints.weighty = 0.1;
         constraints.fill = GridBagConstraints.HORIZONTAL;
