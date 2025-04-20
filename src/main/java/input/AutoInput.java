@@ -34,9 +34,10 @@ public class AutoInput {
         Thread input;
         if (rob.getMacroType() == Macro.MacroType.SINGLE) {
             input = new Thread(() -> rob.runMacro());
+            input.start();//start the thread
         } else if (!inputActive) {
             inputActive = true;
-            input = new Thread(() -> { //create a thread to handle the autoclicking
+            input = new Thread(() -> { //create a thread to handle the auto clicking
                 while (inputActive) {
                     rob.runMacro();
                 }
