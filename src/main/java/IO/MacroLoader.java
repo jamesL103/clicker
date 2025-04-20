@@ -28,6 +28,7 @@ public class MacroLoader {
     public Macro loadFromFile(String path) {
         File file = new File(path);
         FileInputStream in;
+        //init file stream
         try {
             in = new FileInputStream(file);
         } catch (FileNotFoundException e) {
@@ -37,15 +38,16 @@ public class MacroLoader {
 
         Macro macro = new Macro(Macro.MacroType.SINGLE, "default", false);
         try {
+            //read name
             byte curr = (byte) in.read();
             String name = "";
             while (curr != ',') {
                 name = name.concat(String.valueOf((char)curr));
                 curr = (byte) in.read();
             }
-
             macro.setName(name.trim());
 
+            //read type
             byte type = (byte) in.read();
             if (type == 0b1) {
                 macro.setType(Macro.MacroType.TOGGLE);
@@ -57,6 +59,13 @@ public class MacroLoader {
                 macro.setType(Macro.MacroType.SINGLE);
             }
             in.skip(1);//skip comma
+
+            //read isPreset
+            byte isPreset = (byte)in.read();
+            if (isPreset == 1) {
+                macro.setPreset(true);
+            }
+            in.skip(1);
 
             macro.setInputSequence(readInputSequence(in));
         } catch (IOException e) {

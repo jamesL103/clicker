@@ -4,6 +4,7 @@ import input.macro.Macro;
 import input.macro.MacroEvent;
 import org.junit.jupiter.api.Test;
 
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,14 @@ class FileManagerTest {
     void saveMacro() {
         FileManager manager = new FileManager();
 
-//        Macro macro = new Macro(Macro.MacroType.SINGLE, "one");
-//        macro.setInputSequence(new ArrayList<>());
+        Macro macro = new Macro(Macro.MacroType.TOGGLE, "Auto Clicker", false);
+        ArrayList<MacroEvent> sequence = new ArrayList<>();
+        sequence.add(new MacroEvent(MacroEvent.InputType.MOUSE_PRESS, InputEvent.BUTTON1_DOWN_MASK));
+        sequence.add(new MacroEvent(MacroEvent.InputType.MOUSE_RELEASE, InputEvent.BUTTON1_DOWN_MASK));
+        sequence.add(new MacroEvent(MacroEvent.InputType.DELAY, -1, 1));
+        macro.setInputSequence(sequence);
 
-//        manager.saveMacro(Macros.AUTO_CLICK);
+        manager.saveMacro(macro);
 
     }
 

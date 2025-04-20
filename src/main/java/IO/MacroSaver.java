@@ -3,6 +3,7 @@ package IO;
 import input.macro.Macro;
 import input.macro.MacroEvent;
 
+import java.awt.*;
 import java.awt.event.InputEvent;
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -17,8 +18,10 @@ public class MacroSaver {
             //create file if it does not exist
             file.createNewFile();
 
+            //write name
             out = new FileWriter(file);
             out.write(macro.getName() + ",");
+
             //write type byte
             Macro.MacroType type = macro.getType();
             if (type == Macro.MacroType.SINGLE) {
@@ -26,8 +29,16 @@ public class MacroSaver {
             } else {
                 out.append((char)0b1);
             }
-
             out.append(",");
+
+            //write isPreset byte
+            if (macro.isPreset()) {
+                out.append((char)0b1);
+            } else {
+                out.append((char)0);
+            }
+            out.append(",");
+
             out.close();
 
             try { //for writing the sequence of inputs
