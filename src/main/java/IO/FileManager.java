@@ -17,6 +17,18 @@ public class FileManager {
     private final MacroSaver SAVE = new MacroSaver();
     private final MacroLoader LOAD = new MacroLoader();
 
+    //checks if the macros directory exists and creates it if not
+    public FileManager() {
+        Path macrosDir = Paths.get(MACRO_DIR);
+        if (!Files.exists(macrosDir)) {
+            try {
+                Files.createDirectory(macrosDir);
+            } catch (IOException e) {
+                System.err.println("Error creating macro directory: " + e.getMessage());
+            }
+        }
+    }
+
 
     //load macro specified by name
     public Macro loadMacro(String name) {
