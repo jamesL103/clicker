@@ -134,7 +134,7 @@ public class MacroGUI extends JFrame {
         constraints.gridy = 3;
         constraints.weightx = 0.5;
         constraints.weighty = 0.1;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.fill = GridBagConstraints.BOTH;
 
         MACRO_USE_PANEL.add(buttonPanel, constraints);
 
