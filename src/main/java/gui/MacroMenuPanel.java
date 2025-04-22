@@ -5,6 +5,8 @@ import input.macro.Macro;
 import input.macro.Macros;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +26,9 @@ public class MacroMenuPanel extends JPanel {
     private final MacroGUI.ExitViewObserver exitObserver;
     //observer for selecting a new macro
     private final MacroGUI.ChangeMacroObserver changeObserver;
+
+    //button to select a macro
+    private final JButton SELECT_BUTTON = new JButton("Select");
 
     //instance of exit button listener
     private final ExitButtonListener EXIT_LISTENER = new ExitButtonListener();
@@ -87,10 +92,9 @@ public class MacroMenuPanel extends JPanel {
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener(EXIT_LISTENER);
 
-        JButton select = new JButton("Select");
-        select.addActionListener(new SelectMacroButtonListener());
+        SELECT_BUTTON.addActionListener(new SelectMacroButtonListener());
 
-        buttons.add(select);
+        buttons.add(SELECT_BUTTON);
         buttons.add(cancel);
 
         add(buttons, gbc);
@@ -103,6 +107,8 @@ public class MacroMenuPanel extends JPanel {
         addPresetMacros(model);
 
         MACRO_LIST.setModel(model);
+        MACRO_LIST.addListSelectionListener(new MenuListSelectionListener());
+        MACRO_LIST.setCellRenderer(new ExtendedMacroListCellRenderer());
 
         List<String> macroNames = MANAGER.loadMacroNames();
         for (String name: macroNames) {
@@ -117,7 +123,12 @@ public class MacroMenuPanel extends JPanel {
         listConstraints.weighty = 0.6;
         listConstraints.fill = GridBagConstraints.BOTH;
 
-        add(MACRO_LIST, listConstraints);
+        MACRO_LIST.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        //add the list to a scroll pane
+        JScrollPane listScroll = new JScrollPane();
+        listScroll.setViewportView(MACRO_LIST);
+        add(listScroll, listConstraints);
     }
 
     //sets the list of the menu
@@ -166,5 +177,33 @@ public class MacroMenuPanel extends JPanel {
         }
     }
 
+    //listener for when list selection is changed
+    private class MenuListSelectionListener implements ListSelectionListener {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) {
+                //disable the select button if the selected macro is the same as the current one
+                String name = MACRO_LIST.getModel().getElementAt(e.getFirstIndex());
+                SELECT_BUTTON.setEnabled(!name.equals(currentMacro.getName()));
+            }
+        }
+    }
+
+    //marks the currently selected macro in the list
+    private class ExtendedMacroListCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            String message = getText();
+            if (value.equals(currentMacro.getName())) {
+                message += " --- currently selected";
+            }
+
+            setText(message);
+            return this;
+        }
+    }
 
 }
