@@ -1,5 +1,6 @@
 package gui.macroEdit;
 
+import IO.FileManager;
 import gui.MacroGUI;
 import input.macro.Macro;
 import input.macro.MacroEvent;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroEditPanel extends JPanel {
+
+    private final FileManager FILE_MANAGER;
 
     public final JLabel NAME_LABEL = new JLabel("default");
 
@@ -40,9 +43,10 @@ public class MacroEditPanel extends JPanel {
     //currently edited macro
     private Macro currentMacro;
 
-    public MacroEditPanel(MacroGUI.ExitViewObserver exitObserver) {
+    public MacroEditPanel(FileManager manager, MacroGUI.ExitViewObserver exitObserver) {
         super();
         EXIT_OBSERVER = exitObserver;
+        FILE_MANAGER = manager;
 
         setLayout(new GridBagLayout());
 
@@ -139,6 +143,7 @@ public class MacroEditPanel extends JPanel {
 
     public void setMacro(Macro macro) {
         this.currentMacro = macro;
+        originalName = currentMacro.getName();
         updateView();
     }
 
@@ -171,12 +176,17 @@ public class MacroEditPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             currentMacro.setInputSequence(tempList);
-            currentMacro.setName(NAME_EDIT.getText());
+            if (!originalName.equals(NAME_EDIT.getText())) {
+                currentMacro.setName(NAME_EDIT.getText());
+                FILE_MANAGER.deleteMacro(originalName);
+            }
             if (TYPE_SELECT.getSelectedIndex() == 0) {
                 currentMacro.setType(Macro.MacroType.SINGLE);
             } else {
                 currentMacro.setType(Macro.MacroType.TOGGLE);
             }
+            FILE_MANAGER.saveMacro(currentMacro);
+
             EXIT_OBSERVER.notifyExit();
         }
     }

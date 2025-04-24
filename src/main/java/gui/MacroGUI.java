@@ -24,7 +24,7 @@ public class MacroGUI extends JFrame {
     private final FileManager FILE_MANAGER = new FileManager();
 
     private final JPanel MACRO_USE_PANEL = new JPanel();
-    private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel(new ExitViewObserver());
+    private final MacroEditPanel MACRO_EDIT_PANEL = new MacroEditPanel(FILE_MANAGER, new ExitViewObserver());
     private final MacroMenuPanel MACRO_MENU_PANEL = new MacroMenuPanel(FILE_MANAGER, new ExitViewObserver(), new ChangeMacroObserver());
     private JPanel currentView;
 

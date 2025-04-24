@@ -68,6 +68,7 @@ public class MacroLoader {
             in.skip(1);
 
             macro.setInputSequence(readInputSequence(in));
+            in.close();
         } catch (IOException e) {
             System.err.println("Error: Couldn't read file \"" + path + "\"");
             System.err.println(e.getMessage());

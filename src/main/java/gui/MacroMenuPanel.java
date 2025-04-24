@@ -110,10 +110,7 @@ public class MacroMenuPanel extends JPanel {
         MACRO_LIST.addListSelectionListener(new MenuListSelectionListener());
         MACRO_LIST.setCellRenderer(new ExtendedMacroListCellRenderer());
 
-        List<String> macroNames = MANAGER.loadMacroNames();
-        for (String name: macroNames) {
-            model.addElement(name);
-        }
+        setList(MANAGER.loadMacroNames());
 
         GridBagConstraints listConstraints = new GridBagConstraints();
 
@@ -132,6 +129,7 @@ public class MacroMenuPanel extends JPanel {
     }
 
     //sets the list of the menu
+    //todo: update list after macro deletion
     public void setList(List<String> list) {
         DefaultListModel<String> updated = new DefaultListModel<>();
 

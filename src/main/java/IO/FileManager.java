@@ -57,4 +57,17 @@ public class FileManager {
         return list;
     }
 
+    /** Deletes a macro with the specified name.
+     *
+     * @param name the name of the macro to delete
+     */
+    public void deleteMacro(String name) {
+        Path path = Paths.get(MACRO_DIR + "/" + name + ".mac");
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            System.err.println("Error deleting macro:" + e.getMessage());
+        }
+    }
+
 }
