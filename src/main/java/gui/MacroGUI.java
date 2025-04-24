@@ -238,7 +238,9 @@ public class MacroGUI extends JFrame {
     public class ExitViewObserver {
 
         public void notifyExit() {
-                setView(MACRO_USE_PANEL);
+
+            setView(MACRO_USE_PANEL);
+            updateLabels();
         }
 
     }

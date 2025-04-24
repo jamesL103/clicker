@@ -184,7 +184,7 @@ public class MacroMenuPanel extends JPanel {
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 //disable the select button if the selected macro is the same as the current one
-                String name = MACRO_LIST.getModel().getElementAt(e.getFirstIndex());
+                String name = MACRO_LIST.getSelectedValue();
                 SELECT_BUTTON.setEnabled(!name.equals(currentMacro.getName()));
             }
         }

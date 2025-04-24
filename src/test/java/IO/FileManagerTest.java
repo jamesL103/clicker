@@ -86,4 +86,20 @@ class FileManagerTest {
         assertEquals(save.getInputSequence(), load.getInputSequence());
 
     }
+
+    @Test
+    public void createEditMacro() {
+        FileManager manager = new FileManager();
+        Macro save = new Macro(Macro.MacroType.SINGLE, "edit", false);
+
+        List<MacroEvent> list = new ArrayList<>();
+
+        list.add(new MacroEvent(MacroEvent.InputType.KEY_PRESS, KeyEvent.VK_A));
+        list.add(new MacroEvent(MacroEvent.InputType.KEY_PRESS, KeyEvent.VK_B));
+        list.add(new MacroEvent(MacroEvent.InputType.KEY_PRESS, KeyEvent.VK_ESCAPE));
+
+        save.setInputSequence(list);
+
+        manager.saveMacro(save);
+    }
 }

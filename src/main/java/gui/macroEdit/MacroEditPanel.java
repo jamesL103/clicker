@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MacroEditPanel extends JPanel {
@@ -22,7 +21,15 @@ public class MacroEditPanel extends JPanel {
 
     private final MacroGUI.ExitViewObserver EXIT_OBSERVER;
 
+    //field for editing macro name
     private final JTextField NAME_EDIT = new JTextField();
+
+    //dropdown menu for editing macro type
+    private final JComboBox<String> TYPE_SELECT = new JComboBox<>();
+    private final static String[] TYPES = {"single", "toggle"};
+
+    //tracks the pre-edit name of the macro
+    private String originalName = "";
 
     //temporary macro sequence used when editing the macro
     private List<MacroEvent> tempList = new ArrayList<>();
@@ -41,6 +48,7 @@ public class MacroEditPanel extends JPanel {
 
         addHeader();
         addButtons();
+        addTypeSelect();
 
     }
 
@@ -108,6 +116,21 @@ public class MacroEditPanel extends JPanel {
 
     }
 
+    private void addTypeSelect() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(TYPES);
+        TYPE_SELECT.setModel(model);
+
+        add(TYPE_SELECT, gbc);
+
+    }
+
     //resets the temp list to the macro's sequence
     public void resetTempList() {
         tempList.clear();
@@ -123,6 +146,11 @@ public class MacroEditPanel extends JPanel {
     private void updateView() {
         NAME_LABEL.setText(currentMacro.getName());
         NAME_EDIT.setText(currentMacro.getName());
+        if (currentMacro.getType() == Macro.MacroType.SINGLE) {
+            TYPE_SELECT.setSelectedIndex(0);
+        } else {
+            TYPE_SELECT.setSelectedIndex(1);
+        }
     }
 
 
@@ -139,10 +167,17 @@ public class MacroEditPanel extends JPanel {
     //listener for save button
     private class SaveButtonListener implements ActionListener {
 
-        //sets the macro's input sequence to the current temp list
+        //saves the new data to the macro
         @Override
         public void actionPerformed(ActionEvent e) {
             currentMacro.setInputSequence(tempList);
+            currentMacro.setName(NAME_EDIT.getText());
+            if (TYPE_SELECT.getSelectedIndex() == 0) {
+                currentMacro.setType(Macro.MacroType.SINGLE);
+            } else {
+                currentMacro.setType(Macro.MacroType.TOGGLE);
+            }
+            EXIT_OBSERVER.notifyExit();
         }
     }
 
